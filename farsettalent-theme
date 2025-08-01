@@ -1,0 +1,53 @@
+name: Deploy FarsetTalent Theme
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Zip theme directory
+        run: |
+          cd wp-content/themes
+          zip -r farsettalent.zip farsettalent
+
+      - name: Upload ZIP to server
+        uses: appleboy/scp-action@v0.1.2
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: wp-content/themes/farsettalent/farsettalent.zip
+          target: /home/dockviewadmin/wptbox/wp-content/themes
+
+      - name: Install & Activate via WP-CLI
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /home/dockviewadmin/wptbox
+            wp theme install wp-content/themes/farsettalent.zip --force
+            wp theme activate farsettalent
+            rm wp-content/themes/farsettalent.zip
+
+      - name: Purge Cloudflare Cache
+        if: ${{ secrets.CF_API_TOKEN != '' }}
+        run: |
+          ZONE_ID=$(curl -s \
+            -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            "https://api.cloudflare.com/client/v4/zones?name=farsettalent.com" \
+            | jq -r '.result[0].id')
+          curl -X POST "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/purge_cache" \
+            -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything":true}'
