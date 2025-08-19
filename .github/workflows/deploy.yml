@@ -22,3 +22,5 @@ jobs:
           password: ${{ secrets.EASYWP_PASSWORD }}
           local_path: './wp-content/themes/farset-theme-main'
           remote_path: '/wptbox/wp-content/themes/farset-theme-main'
+
+x
