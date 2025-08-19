@@ -1,7 +1,18 @@
-
 /*
 Theme Name: Farset Talent Theme
-Theme URI: https://farsettalent.com
-Author: Farset Talent
+Theme URI: https://farsettalent.com/
+Author: John Gargan
+Author URI: https://farsettalent.com/
+Description: Custom theme for Farset Talent recruitment site
 Version: 1.0
+License: GNU General Public License v2 or later
+Text Domain: farset-theme
 */
+
+body {
+  font-family: Arial, sans-serif;
+  color: #111;
+  background: #fff;
+  margin: 0;
+  padding: 0;
+}
