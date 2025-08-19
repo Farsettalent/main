@@ -10,17 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Upload via SFTP to EasyWP
-        uses: pressidium/lftp-mirror-action@v1.2.1
+      - name: Deploy via SFTP
+        uses: wlixcc/sftp-deploy-action@v1.2.4
         with:
-          host: ${{ secrets.EASYWP_HOST }}
+          server: ${{ secrets.EASYWP_HOST }}
           port: ${{ secrets.EASYWP_PORT }}
-          user: ${{ secrets.EASYWP_USERNAME }}
+          username: ${{ secrets.EASYWP_USERNAME }}
           password: ${{ secrets.EASYWP_PASSWORD }}
-          localDir: "."
-          remoteDir: "/wptbox/wp-content/themes/farset-theme-main"
-          reverse: true
-          delete: true
+          local_path: './wp-content/themes/farset-theme-main'
+          remote_path: '/wptbox/wp-content/themes/farset-theme-main'
