@@ -7,6 +7,7 @@ on:
 
 jobs:
   deploy:
+    name: Deploy via SFTP
     runs-on: ubuntu-latest
 
     steps:
@@ -16,10 +17,10 @@ jobs:
       - name: Deploy via SFTP
         uses: wlixcc/sftp-deploy-action@v1.2.4
         with:
-          server: ${{ secrets.HOST }}
-          port: ${{ secrets.PORT }}
-          username: ${{ secrets.USERNAME }}
-          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          server: ${{ secrets.SFTP_SERVER }}
+          username: ${{ secrets.SFTP_USERNAME }}
+          password: ${{ secrets.SFTP_PASSWORD }}
+          port: 22
           local_path: './wp-content/themes/farset-theme-main'
           remote_path: '/wptbox/wp-content/themes/farset-theme-main'
           sftp_only: true
