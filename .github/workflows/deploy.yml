@@ -7,11 +7,9 @@ on:
 
 jobs:
   deploy:
-    name: Deploy via SFTP
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Deploy via SFTP
@@ -21,6 +19,6 @@ jobs:
           username: ${{ secrets.SFTP_USERNAME }}
           password: ${{ secrets.SFTP_PASSWORD }}
           port: 22
+          sftp_only: true
           local_path: './wp-content/themes/farset-theme-main'
           remote_path: '/wptbox/wp-content/themes/farset-theme-main'
-          sftp_only: true
