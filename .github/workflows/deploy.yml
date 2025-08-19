@@ -16,9 +16,10 @@ jobs:
       - name: Deploy via SFTP
         uses: wlixcc/sftp-deploy-action@v1.2.4
         with:
-          server: ${{ secrets.EASYWP_HOST }}
-          port: 22
-          username: ${{ secrets.EASYWP_USERNAME }}
-          password: ${{ secrets.EASYWP_PASSWORD }}
+          server: ${{ secrets.HOST }}
+          port: ${{ secrets.PORT }}
+          username: ${{ secrets.USERNAME }}
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           local_path: './wp-content/themes/farset-theme-main'
           remote_path: '/wptbox/wp-content/themes/farset-theme-main'
+          sftp_only: true
