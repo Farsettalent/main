@@ -1,0 +1,26 @@
+name: Deploy Theme to EasyWP
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Upload via SFTP to EasyWP
+        uses: pressidium/lftp-mirror-action@v1.2.1
+        with:
+          host: ${{ secrets.EASYWP_HOST }}
+          port: ${{ secrets.EASYWP_PORT }}
+          user: ${{ secrets.EASYWP_USERNAME }}
+          password: ${{ secrets.EASYWP_PASSWORD }}
+          localDir: "."
+          remoteDir: "/wptbox/wp-content/themes/farset-theme-main"
+          reverse: true
+          delete: true
