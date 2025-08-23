@@ -1,0 +1,4 @@
+source_url,target_url,match_type,action_code
+/careers,/jobs,exact,301
+/submitcv,/submit-cv,exact,301
+http://farsettalent.com,https://farsettalent.com,exact,301
