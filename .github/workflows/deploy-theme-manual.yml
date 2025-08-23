@@ -1,14 +1,22 @@
 name: Deploy Theme to EasyWP (Manual)
+
 on:
   workflow_dispatch:
     inputs:
-      branch: { description: "Branch to deploy", required: true, default: "main" }
+      branch:
+        description: "Branch to deploy"
+        required: true
+        default: "main"
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with: { ref: ${{ github.event.inputs.branch }} }
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
+
       - name: SFTP Deploy theme
         uses: wlixcc/SFTP-Deploy-Action@v1.2
         with:
@@ -18,12 +26,15 @@ jobs:
           local_path: "wp-content/themes"
           remote_path: "/wp-content/themes"
           sftpArgs: "-o StrictHostKeyChecking=no"
+
       - name: Optional LiteSpeed purge
         if: ${{ secrets.WP_PURGE_URL != '' }}
         run: curl -sS "${{ secrets.WP_PURGE_URL }}"
+
       - name: Optional Cloudflare purge
         if: ${{ secrets.CF_API_TOKEN != '' && secrets.CF_ZONE_ID != '' }}
         run: |
           curl -sS -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/purge_cache" \
-            -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
             --data '{"purge_everything":true}'
