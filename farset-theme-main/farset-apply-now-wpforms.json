@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "version": "1.8.6",
+    "exported": "2025-08-24T20:39:14.884732Z"
+  },
+  "forms": [
+    {
+      "name": "Apply Now",
+      "description": "",
+      "status": "publish",
+      "fields": [
+        {
+          "id": 1,
+          "type": "name",
+          "label": "Full Name",
+          "format": "first-last",
+          "required": true
+        },
+        {
+          "id": 2,
+          "type": "email",
+          "label": "Email",
+          "required": true
+        },
+        {
+          "id": 3,
+          "type": "phone",
+          "label": "Phone",
+          "required": true
+        },
+        {
+          "id": 4,
+          "type": "text",
+          "label": "Job Title",
+          "required": true,
+          "css": "farset-job-field"
+        },
+        {
+          "id": 5,
+          "type": "file-upload",
+          "label": "Upload CV (PDF/DOC)",
+          "required": true,
+          "extensions": "pdf,doc,docx",
+          "max_size": "10"
+        },
+        {
+          "id": 6,
+          "type": "textarea",
+          "label": "Cover Message",
+          "required": false
+        }
+      ],
+      "settings": {
+        "ajax_submit": "1",
+        "submit_text": "Send Application",
+        "notification_enable": "1",
+        "notifications": {
+          "1": {
+            "notification_name": "Admin Notification",
+            "email": "info@farsettalent.com",
+            "subject": "New application: {field_id=\"4\"}",
+            "sender_name": "Farset Talent",
+            "sender_address": "{admin_email}",
+            "message": "New job application submitted.\\n\\nJob: {field_id=\"4\"}\\nName: {field_id=\"1\"}\\nEmail: {field_id=\"2\"}\\nPhone: {field_id=\"3\"}\\n\\nMessage:\\n{field_id=\"6\"}",
+            "replyto": "{field_id=\"2\"}"
+          }
+        },
+        "confirmations": {
+          "1": {
+            "name": "Default Confirmation",
+            "type": "message",
+            "message": "<p>Thanks! Your application has been sent. We\u2019ll be in touch if you\u2019re a match.</p>"
+          }
+        }
+      }
+    }
+  ]
+}
